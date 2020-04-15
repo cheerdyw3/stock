@@ -1,0 +1,10 @@
+{
+    "DATABASEUSERNAME":"",
+    "DATABASEPASSWORD":"",
+    "DATABASEHOST":"localhost",
+    "DATABASEPORT":"27017",
+    "DATABASENAME":"stock-test",
+    "mongoAddress":"",
+	"baseUrlBackend":"http://localhost:8085/",
+	"baseUrlFrontend":""
+}
