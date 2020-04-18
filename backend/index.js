@@ -15,16 +15,16 @@ mongosetup.setup(app);
 // app.use("/api/v2/authen/", require("./api_authen"));
 // app.use("/api/v2/stock/", require("./api_stock"));
 
-// var getUserDetail = require('./modules/users/getUserDetail.module');
-// createPattern.initialize(app);
+var users = require('./modules/users.module');
+var products = require('./modules/products.module');
+users.initialize(app);
+products.initialize(app);
 
 app.listen(8085, () => {
   console.log("Backend is running .....");
 });
-var canvasModel = require('./models/users.model');
+
 app.get('/',async (req,res)=>{
-  let getCanvas = await canvasModel.findOne({});
-  console.log(getCanvas);
-	res.status(200).json({success:true,msg:'API work.',obj:getCanvas});
+	res.status(200).json({success:true,msg:'API work.',obj:null});
 	return;
 });
