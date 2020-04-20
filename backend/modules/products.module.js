@@ -11,7 +11,7 @@ exports.initialize = (app) => {
 
 const createProduct = async (req, res) => {
   try {
-    const sendData = await db.createProduct(req)
+    const sendData = await db.createProduct(req.fields,req.files)
     .then((result) => {
       res.status(200).json(result);
       return;

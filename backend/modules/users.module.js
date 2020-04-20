@@ -24,6 +24,7 @@ const registerUser = async (req, res) => {
 
 const login = async (req, res) => {
     try {
+      console.log(req.body)
       const sendData =await db.checkLogin(req.body)
         .then((result) => {
           res.status(200).json(result);

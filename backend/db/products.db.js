@@ -1,26 +1,38 @@
+const path = require("path");
+const fs = require("fs-extra");
 const ObjectId = require("mongoose").Types.ObjectId;
 const productModel = require("../models/product.model");
-const formidable = require("formidable");
 
-const createProduct = async (req) => {
+const uploadImage = async (files, doc) => {
+  if (files.image != null) {
+    let fileExtention = files.image.name.split(".")[1];
+    doc.image = `${doc.id}.${fileExtention}`;
+    let newpath =
+      path.resolve(__dirname + "/uploaded/images/") + "/" + doc.image;
+    if (fs.exists(newpath)) {
+      await fs.remove(newpath);
+    }
+    await fs.moveSync(files.image.path, newpath);
+
+    // Update database
+    let result = await productModel.updateOne({'_id':ObjectId(doc._id)},
+    {$set:{
+        partentName : doc.image
+    }});
+    return result;
+  }
+};
+
+const createProduct = async (data,files) => {
   try {
-    const form = new formidable.IncomingForm();
-    form.parse(req,async (err,fields,files)=>{
-      console.log(files)
-    })
-    // console.log(form)
-    // let setData = await new productModel({
-    //   name: data.name,
-    //   image: data.image,
-    //   price: data.price,
-    //   stock: data.stock
-    // }).save();
-    // console.log(setData)
-    // if (setData) {
-    //   return { success: true, msg: `Add Product Success.`, obj: setData };
-    // } else {
-    //   return { success: false, msg: `Add Product False.`, obj: null };
-    // }
+    let setData = await new productModel({
+      name: data.name,
+      price: data.price,
+      stock: data.stock
+    }).save();
+    setData = await uploadImage(files,setData);
+
+
   } catch (err) {
     return { success: false, msg: `method db error is ${err}`, obj: null };
   }
