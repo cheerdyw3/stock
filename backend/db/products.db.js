@@ -4,22 +4,28 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const productModel = require("../models/product.model");
 
 const uploadImage = async (files, doc) => {
-  if (files.image != null) {
+  if (files.image.name) {
     let fileExtention = files.image.name.split(".")[1];
     doc.image = `${doc.id}.${fileExtention}`;
-    let newpath =
-      path.resolve(__dirname + "/uploaded/images/") + "/" + doc.image;
+    let newpath = path.resolve(__dirname) + "./../uploaded/images/" + doc.image;
     if (fs.exists(newpath)) {
       await fs.remove(newpath);
     }
     await fs.moveSync(files.image.path, newpath);
 
     // Update database
-    let result = await productModel.updateOne({'_id':ObjectId(doc._id)},
+    let result = await productModel.updateOne({'_id':ObjectId(doc.id)},
     {$set:{
-        partentName : doc.image
+      image : doc.image
     }});
-    return result;
+    if(result.n != 1){
+      return { success: false, msg: `The file has an error.`, obj: null };
+    }else{
+      return doc;
+    }
+    
+  }else{
+    return doc;
   }
 };
 
@@ -30,15 +36,56 @@ const createProduct = async (data,files) => {
       price: data.price,
       stock: data.stock
     }).save();
-    setData = await uploadImage(files,setData);
-
-
+    data.id = setData._id;
+    setData = await uploadImage(files,data);
+    if (setData) {
+      return { success: true, msg: `Add User Success.`, obj: setData };
+    } else {
+      return { success: false, msg: `Add User False.`, obj: null };
+    }
   } catch (err) {
     return { success: false, msg: `method db error is ${err}`, obj: null };
   }
 };
 
+const updateProduct = async (data,files) => {
+  try {
+    let editProduct = await productModel.updateOne({'_id':ObjectId(data.id)},
+    {$set:{
+      name: data.name,
+      price: data.price,
+      stock: data.stock
+    }});
+
+    editProduct = await uploadImage(files,data);
+
+    if(editProduct){
+        return {success:true,message:'ok',obj:editProduct};
+    }else{
+        return {success:false,message:'edit false',obj:''};
+    }
+  } catch (err) {
+    return { success: false, msg: `method db error is ${err}`, obj: null };
+  }
+};
+
+const deleteProduct = async(data)=>{
+  try {
+    let findProduct = await productModel.findOne({'_id':ObjectId(data.id)});
+    if(findProduct){
+        await fs.remove(
+          path.resolve(__dirname) + "./../uploaded/images/" + findProduct.image
+        );
+        await productModel.deleteOne({'_id':ObjectId(data.id)});
+        return { success:true,msg: `ok`,obj:null };
+    }else{
+      return { success: false, msg: `This ID does not exist.`, obj: null };
+    }
+  } catch (error) {
+    return { success: false, msg: `method db error is ${err}`, obj: null };
+  }
+}
 
 module.exports = {
-  createProduct
+  createProduct,updateProduct,deleteProduct
 };

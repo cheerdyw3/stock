@@ -11,7 +11,7 @@ exports.initialize = (app) => {
 
 const createProduct = async (req, res) => {
   try {
-    const sendData = await db.createProduct(req.fields,req.files)
+    let sendData = await db.createProduct(req.fields,req.files)
     .then((result) => {
       res.status(200).json(result);
       return;
@@ -23,8 +23,28 @@ const createProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+  try {
+    let sendData = await db.updateProduct(req.fields,req.files)
+    .then((result) => {
+      res.status(200).json(result);
+      return;
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: `module error is ${err}`, obj: null });
+    return;
+  }
 }
 const deleteProduct = async (req, res) => {
+  try {
+    let sendData = await db.deleteProduct(req.params)
+    .then((result) => {
+      res.status(200).json(result);
+      return;
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: `module error is ${err}`, obj: null });
+    return;
+  }
 }
 const getProductByKeyword = async (req, res) => {
 }
