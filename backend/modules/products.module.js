@@ -47,8 +47,38 @@ const deleteProduct = async (req, res) => {
   }
 }
 const getProductByKeyword = async (req, res) => {
+  try {
+    let sendData = await db.getProductByKeyword(req.params)
+    .then((result) => {
+      res.status(200).json(result);
+      return;
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: `module error is ${err}`, obj: null });
+    return;
+  }
 }
 const getProductById = async (req, res) => {
+  try {
+    let sendData = await db.getProductById(req.params)
+    .then((result) => {
+      res.status(200).json(result);
+      return;
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: `module error is ${err}`, obj: null });
+    return;
+  }
 }
 const getAllProduct = async (req, res) => {
+  try {
+    let sendData = await db.getAllProduct()
+    .then((result) => {
+      res.status(200).json(result);
+      return;
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: `module error is ${err}`, obj: null });
+    return;
+  }
 }

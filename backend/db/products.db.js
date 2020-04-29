@@ -81,11 +81,57 @@ const deleteProduct = async(data)=>{
     }else{
       return { success: false, msg: `This ID does not exist.`, obj: null };
     }
-  } catch (error) {
+  } catch (err) {
     return { success: false, msg: `method db error is ${err}`, obj: null };
   }
 }
 
+const getAllProduct = async(req,res)=>{
+  try {
+    let getAllProduct = await productModel.find({});
+    if(getAllProduct){
+        return { success:true,msg: `ok`,obj:getAllProduct };
+    }else{
+      return { success: false, msg: `false.`, obj: null };
+    }
+  } catch (err) {
+    return { success: false, msg: `method db error is ${err}`, obj: null };
+  }
+}
+const getProductById = async (data)=>{
+  try {
+    let getProductById = await productModel.findOne({'_id':ObjectId(data.id)});
+    if(getProductById){
+        return { success:true,msg: `ok`,obj:getProductById };
+    }else{
+      return { success: false, msg: `false.`, obj: null };
+    }
+  } catch (err) {
+    return { success: false, msg: `method db error is ${err}`, obj: null };
+  }
+}
+
+const getProductByKeyword = async (data)=>{
+  try {
+    console.log(data.keyword)
+    let result = await productModel.find({name: new RegExp(data.keyword, 'i')});
+    console.log(result)
+    if(result){
+        return { success:true,msg: `ok`,obj:result };
+    }else{
+      return { success: false, msg: `false.`, obj: null };
+    }
+  } catch (err) {
+    return { success: false, msg: `method db error is ${err}`, obj: null };
+  }
+}
+
+
 module.exports = {
-  createProduct,updateProduct,deleteProduct
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getAllProduct,
+  getProductById,
+  getProductByKeyword
 };
