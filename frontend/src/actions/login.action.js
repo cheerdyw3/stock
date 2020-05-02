@@ -37,3 +37,15 @@ export const logout = ({ history }) => {
     history.push("/");
   };
 };
+
+export const setSuccess = (payload) =>{
+  return dispatch => {
+    dispatch(setStateToSuccess("ok"))
+  }
+}
+
+export const hasError = (payload) =>{
+  return dispatch => {
+    dispatch(setStateToFailed(payload))
+  }
+}

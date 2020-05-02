@@ -6,11 +6,13 @@ exports.initialize = (app) => {
 };
 
 const registerUser = async (req, res) => {
+
   try {
     // if(req.app.locals.authorize == false){
     //     res.status(200).json({success:false,message:"invalid authorization",obj:null});
     //     return;
     // }
+
     const sendData = await db.registerUser(req.body)
     .then((result) => {
       res.status(200).json(result);
@@ -24,7 +26,6 @@ const registerUser = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-      console.log(req.body)
       const sendData =await db.checkLogin(req.body)
         .then((result) => {
           res.status(200).json(result);

@@ -5,13 +5,12 @@ const bodyParser = require("body-parser");
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const formidableMiddleware = require('express-formidable');
+// const formidableMiddleware = require('express-formidable');
 
-app.use(formidableMiddleware());
+// app.use(formidableMiddleware());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors());
-
 
 app.use(express.static(__dirname + "/uploaded"));
 
@@ -78,8 +77,8 @@ uploadImage = async (files, doc) => {
   };
 
 //,upload_image.single('image'),
-app.post('/test',async(req,res)=>{
-	// console.log(req.fields)
+app.get('/test',async(req,res)=>{
+	console.log("is run")
 	res.status(200).json({success:true,msg:'API work.',obj:null});
 	return;
 });

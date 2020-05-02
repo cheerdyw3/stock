@@ -4,6 +4,7 @@ const usersModel = require("../models/user.model");
 
 const registerUser = async (data) => {
   try {
+    // console.log(data)
     data.password = bcrypt.hashSync(data.password, 8);
     let setData = await new usersModel({
       username: data.username,
