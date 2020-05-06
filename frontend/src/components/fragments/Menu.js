@@ -17,6 +17,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import { NavLink } from "react-router-dom";
+import {
+  Layers as LayersIcon,
+  BarChart as BarChartIcon,
+  Person as PersonIcon
+} from "@material-ui/icons";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundImage:
+    "url(" + `${process.env.PUBLIC_URL}/images/background_menu.jpg` + ")"
   },
   drawerHeader: {
     display: "flex",
@@ -74,12 +82,16 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  isActive: {
+    backgroundColor: "#e0f5fd",
+    color: "#0080ff"
+  }
 }));
 
 export default function Menu(props) {
   const classes = useStyles();
   const theme = useTheme();
-  
+
   return (
     <div>
       <Drawer
@@ -100,8 +112,55 @@ export default function Menu(props) {
             )}
           </IconButton>
         </div>
+        <img
+          height={250}
+          src={`${process.env.PUBLIC_URL}/images/menu_banner.jpg`}
+          alt=""
+        />
         <Divider />
+        <List>
+          {/* Stock */}
+          <ListItem
+            component={NavLink}
+            to="/stock"
+            button
+            key="stock"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <LayersIcon />
+            </ListItemIcon>
+            <ListItemText primary="Stock" />
+          </ListItem>
 
+          {/* Report */}
+          <ListItem
+            component={NavLink}
+            to="/report"
+            button
+            key="report"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <BarChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Report" />
+          </ListItem>
+
+          {/* AboutUS */}
+          <ListItem
+            component={NavLink}
+            to="/aboutus"
+            button
+            key="aboutus"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="AboutUs" />
+          </ListItem>
+        </List>
       </Drawer>
     </div>
   );

@@ -4,7 +4,7 @@ const usersModel = require("../models/user.model");
 
 const registerUser = async (data) => {
   try {
-    // console.log(data)
+    console.log(data)
     data.password = bcrypt.hashSync(data.password, 8);
     let setData = await new usersModel({
       username: data.username,
@@ -24,6 +24,7 @@ const registerUser = async (data) => {
 const checkLogin = async (data) => {
   try {
     let findUser = await usersModel.findOne({'username':data.username});
+
     if(findUser){
       if (bcrypt.compareSync(data.password, findUser.password)) {
         return { success: true, msg: `ok`, obj: findUser };

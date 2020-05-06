@@ -1,8 +1,8 @@
 const db = require("../db/users.db");
 
 exports.initialize = (app) => {
-  app.post("/authen/register", registerUser);
-  app.post("/authen/login", login);
+  app.post("/api/v2/authen/register", registerUser);
+  app.post("/api/v2/authen/login", login);
 };
 
 const registerUser = async (req, res) => {

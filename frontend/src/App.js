@@ -4,6 +4,8 @@ import Header from "./components/fragments/Header";
 import Menu from "./components/fragments/Menu";
 import Register from "./components/pages/Register";
 import Login from "./components/pages/Login";
+import Report from "./components/pages/Report";
+import AboutUs from "./components/pages/AboutUs";
 import { makeStyles } from "@material-ui/core/styles";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
@@ -51,10 +53,10 @@ export default function App() {
 
   return (
     <Router>
-      {loginReducer.result && (
+      {loginReducer.result && !loginReducer.error && (
         <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
       )}
-      {loginReducer.result && (
+      {loginReducer.result && !loginReducer.error && (
         <Menu open={openDrawer} handleDrawerClose={handleDrawerClose} />
       )}
       <Container className={classes.content}>
@@ -69,6 +71,8 @@ export default function App() {
             path="/"
             component={() => <Redirect to="/login" />}
           />
+          <Route path="/report" component={Report} />
+          <Route path="/aboutus" component={AboutUs} />
         </Switch>
       </Container>
     </Router>

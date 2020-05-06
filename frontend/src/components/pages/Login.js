@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
 import {
   CardActions,
   Card,
@@ -12,7 +13,8 @@ import {
   Grid,
 } from "@material-ui/core";
 import * as loginAction from "./../../actions/login.action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import loginReducer from "../../reducers/login.reducer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +36,7 @@ export default function Login(props) {
   });
 
   const dispatch = useDispatch();
-
+  const loginReducer = useSelector(({loginReducer})=>loginReducer)
   return (
     <Card className={classes.root}>
       <CardMedia
@@ -85,7 +87,9 @@ export default function Login(props) {
             id="password"
             autoComplete="current-password"
           />
-
+        {loginReducer.error && (
+          <Alert severity="error">{loginReducer.result}</Alert>
+        )}
           <Button
             type="submit"
             fullWidth

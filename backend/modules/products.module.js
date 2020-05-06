@@ -1,12 +1,12 @@
 const db = require("../db/products.db");
 
 exports.initialize = (app) => {
-  app.post("/product", createProduct);
-  app.put("/product", updateProduct);
-  app.delete("/product/:id", deleteProduct);
-  app.get("/product/keyword/:keyword", getProductByKeyword);
-  app.get("/product/:id", getProductById);
-  app.get("/product", getAllProduct);
+  app.post("/api/v2/stock/product", createProduct);
+  app.put("/api/v2/stock/product", updateProduct);
+  app.delete("/api/v2/stock/product/:id", deleteProduct);
+  app.get("/api/v2/stock/product/keyword/:keyword", getProductByKeyword);
+  app.get("/api/v2/stock/product/:id", getProductById);
+  app.get("/api/v2/stock/product", getAllProduct);
 };
 
 const createProduct = async (req, res) => {

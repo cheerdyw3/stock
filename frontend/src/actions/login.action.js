@@ -3,7 +3,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT,
+  server,
 } from "../Constants";
+import { httpClient } from "./../utils/HttpClient";
 
 export const setStateToFetching = (payload) => ({
   type: LOGIN_FETCHING,
@@ -22,12 +24,24 @@ export const setStateToLogout = () => ({
 });
 
 export const login = ({ username, password, history }) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(setStateToFetching());
-    setTimeout(() => {
+    // setTimeout(() => {
+    //   dispatch(setStateToSuccess("ok"));
+    //   history.push("/stock");
+    // }, 2000);
+
+    const result = await httpClient.post(server.LOGIN_URL, {
+      username,
+      password,
+    });
+
+    if (result.data.msg == "ok") {
       dispatch(setStateToSuccess("ok"));
       history.push("/stock");
-    }, 2000);
+    } else {
+      dispatch(setStateToFailed(result.data.msg));
+    }
   };
 };
 
@@ -38,14 +52,14 @@ export const logout = ({ history }) => {
   };
 };
 
-export const setSuccess = (payload) =>{
-  return dispatch => {
-    dispatch(setStateToSuccess("ok"))
-  }
-}
+export const setSuccess = (payload) => {
+  return (dispatch) => {
+    dispatch(setStateToSuccess("ok"));
+  };
+};
 
-export const hasError = (payload) =>{
-  return dispatch => {
-    dispatch(setStateToFailed(payload))
-  }
-}
+export const hasError = (payload) => {
+  return (dispatch) => {
+    dispatch(setStateToFailed(payload));
+  };
+};
