@@ -4,6 +4,7 @@ import {
   LOGIN_FAILED,
   LOGOUT,
   server,
+  LOGIN_STATUS,
 } from "../Constants";
 import { httpClient } from "./../utils/HttpClient";
 
@@ -37,16 +38,36 @@ export const login = ({ username, password, history }) => {
     });
 
     if (result.data.msg == "ok") {
+
+      localStorage.setItem(LOGIN_STATUS,"ok");
+
       dispatch(setStateToSuccess("ok"));
       history.push("/stock");
     } else {
+      localStorage.setItem(LOGIN_STATUS,"nok");
       dispatch(setStateToFailed(result.data.msg));
     }
   };
 };
 
+export const reLogin = ()=>{
+  return dispatch => {
+    const loginStatus = localStorage.getItem(LOGIN_STATUS);
+    if(loginStatus == "ok"){
+      dispatch(setStateToSuccess({}));
+    }
+  }
+}
+
+export const isLoggedIn = ()=>{
+  const loginStatus = localStorage.getItem(LOGIN_STATUS);
+  return loginStatus == "ok";
+  
+}
+
 export const logout = ({ history }) => {
   return (dispatch) => {
+    localStorage.removeItem(LOGIN_STATUS);
     dispatch(setStateToLogout());
     history.push("/");
   };

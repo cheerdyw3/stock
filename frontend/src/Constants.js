@@ -3,6 +3,18 @@ export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
 
+//stock page
+export const STOCK_FETCHING = "STOCK_FETCHING";
+export const STOCK_SUCCESS = "STOCK_SUCCESS";
+export const STOCK_FAILED = "STOCK_FAILED";
+export const STOCK_CLEAR = "STOCK_CLEAR";
+
+//stock edit page
+export const STOCK_EDIT_FETCHING = "STOCK_EDIT_FETCHING";
+export const STOCK_EDIT_SUCCESS = "STOCK_EDIT_SUCCESS";
+export const STOCK_EDIT_FAIED = "STOCK_EDIT_FAIED";
+export const STOCK_EDIT_CLEAR = "STOCK_EDIT_CLEAR";
+
 export const apiUrl =  "http://localhost:8085/api/v2";
 export const imageUrl = "http://localhost:8085";
 
@@ -10,7 +22,7 @@ export const YES = 'YES'
 export const NO = 'NO'
 export const OK = 'ok'
 export const NOK = 'nok'
-
+export const LOGIN_STATUS = "LOGIN_STATUS"
 export const server = {    
     LOGIN_URL : `authen/login`,    
     REGISTER_URL : `authen/register`,  
