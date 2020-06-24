@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import MaterialTable from "material-table";
+import MaterialTable, {MTableToolbar} from "material-table";
 import { forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as stockAction from "./../../actions/stock.action";
@@ -23,6 +23,9 @@ import { Typography, Grid } from "@material-ui/core";
 import { imageUrl } from "./../../Constants";
 import Moment from "react-moment";
 import NumberFormat from "react-number-format";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -53,14 +56,30 @@ export default function Stock() {
   const stockReducer = useSelector(({ stockReducer }) => stockReducer);
   useEffect(() => {
     dispatch(stockAction.getProducts());
-  }, []);
+    
 
+  }, []);
+  console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+  console.log(stockReducer.result)
+  const lows = [{
+    "id":"1",
+    "name":"cheer",
+    "price":100,
+    "stock":5
+  },
+  {
+    "id":"2",
+    "name":"nut",
+    "price":50,
+    "stock":3
+  }]
   const columns = [
     {
       title: "Id",
       cellStyle: { padding: 0 },
       render: (item) => <Typography variant="body1">{item._id}</Typography>,
-    },{
+    },
+    {
       title: "Image",
       cellStyle: { padding: 0 },
       render: (item) => (
@@ -69,11 +88,13 @@ export default function Stock() {
           style={{ width: 70, height: 70, borderRadius: "5%" }}
         />
       ),
-    },{
+    },
+    {
       title: "Name",
       cellStyle: { minWidth: 700 },
       render: (item) => <Typography variant="body1">{item.name}</Typography>,
-    },{
+    },
+    {
       title: "Price",
       render: (item) => (
         <Typography variant="body1">
@@ -114,7 +135,7 @@ export default function Stock() {
   ];
   const useStyles = makeStyles((theme) => ({
     root: {
-      width: "700",
+      width: "800",
       marginTop: 0,
     },
   }));
@@ -125,8 +146,27 @@ export default function Stock() {
       <MaterialTable
         icons={tableIcons}
         columns={columns}
-        data={stockReducer.result ? stockReducer.result : []}
+        // data={stockReducer.result ? stockReducer.result : []}
+        data={lows}
         title="Stock"
+        components={{
+          Toolbar: (props) => (
+            <div>
+              <MTableToolbar {...props}/>
+              <div style={{padding:"0px 10px"}}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to="/stockCreate"
+                >
+                  create
+                  </Button>
+              </div>
+            </div>
+          )
+        }}
       />
     </div>
   );
